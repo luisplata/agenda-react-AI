@@ -1,0 +1,72 @@
+#root {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 1rem; /* Smaller padding for mobile by default */
+  text-align: center;
+}
+
+/* Medium devices (tablets, 768px and up) */
+@media (min-width: 768px) {
+  #root {
+    padding: 1.5rem;
+  }
+}
+/* Large devices (desktops, 1024px and up) */
+@media (min-width: 1024px) {
+  #root {
+    padding: 2rem;
+  }
+}
+.logo {
+  height: 6em;
+  padding: 1.5em;
+  will-change: filter;
+  transition: filter 300ms;
+}
+.logo:hover {
+  filter: drop-shadow(0 0 2em #646cffaa);
+}
+.logo.react:hover {
+  filter: drop-shadow(0 0 2em #61dafbaa);
+}
+
+@keyframes logo-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  a:nth-of-type(2) .logo {
+    animation: logo-spin infinite 20s linear;
+  }
+}
+
+.card {
+  position: relative; /* Needed for absolute positioning of overlay */
+  background-size: cover; /* Cover the entire card area */
+  background-position: center; /* Center the background image */
+  color: white; /* Default text color for better contrast on dark background */
+  overflow: hidden; /* Hide overflow from potential background-size issues */
+  min-height: 300px; /* Set a minimum height for the card */
+}
+
+.card:hover {
+  transform: scale(1.05); /* Zoom effect on hover */
+}
+ .card {
+  transition: transform 0.3s ease-in-out; /* Smooth transition for zoom */
+}
+
+.card-text-overlay {
+  background-color: rgba(0, 0, 0, 0.85); /* Distinct semi-transparent dark background */
+  backdrop-filter: blur(8px); /* Apply blur effect */
+  padding: 1em; /* Add padding to the text content */
+}
+
+.read-the-docs {
+  color: #888;
+}
