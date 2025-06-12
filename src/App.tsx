@@ -17,7 +17,7 @@ function App() {
           </Routes>
 
           {/* Footer */}
-          <footer className="py-4 model-tag">
+          <footer className="py-4 model-tag bg-dark text-light">
             <div className="container">
               <div className="row">
                 <div className="col-md-6 mb-3 d-flex justify-content-center">
