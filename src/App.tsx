@@ -1,9 +1,9 @@
 import './App.css'
-import ProfilesList from '/home/user/agencia/src/ProfilesList.tsx';
-import Topbar from '/home/user/agencia/src/Topbar.tsx';
-import Sidebar from '/home/user/agencia/src/Sidebar.tsx';
+import ProfilesList from './ProfilesList.tsx';
+import Topbar from './Topbar.tsx';
+import Sidebar from './Sidebar.tsx';
 import { Routes, Route, BrowserRouter } from 'react-router-dom';
-import ProfileDetail from '/home/user/agencia/src/ProfileDetail.tsx';
+import ProfileDetail from './ProfileDetail';
 
 function App() {
   return (
