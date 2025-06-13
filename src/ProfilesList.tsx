@@ -12,6 +12,8 @@ interface Profile {
   media: { file_path: string }[];
 }
 
+const apiBaseUrl = import.meta.env.VITE_API_BASE_URL;
+
 const ProfilesList: React.FC = () => {
   const [profiles, setProfiles] = useState<Profile[]>([]);
   const [loading, setLoading] = useState(true);
@@ -26,7 +28,6 @@ const ProfilesList: React.FC = () => {
   useEffect(() => {
     const fetchProfiles = async () => {
       try {
-        const apiBaseUrl = import.meta.env.VITE_API_BASE_URL;
         const response = await fetch(`${apiBaseUrl}/api/people`);
         const data = await response.json();
         setProfiles(data);
@@ -119,19 +120,19 @@ const ProfilesList: React.FC = () => {
               .filter(profile => profile.media && profile.media.length > 0) // Keep the media check
               .map((profile) => (
                 <div key={profile.id} className="col-6 col-md-4 col-lg-3 col-xl-3 mb-4" style={{ cursor: 'pointer' }}>
- <Link to={`/profile/${profile.id}`} style={{ textDecoration: 'none', color: 'inherit' }}>                  
- <div className="card">
- <div className="card-img-overlay d-flex flex-column justify-content-end" style={{ backgroundImage: `url(${profile.media && profile.media.length > 0 ? `https://lobasvip.com.ve/${profile.media[0].file_path}` : 'https://via.placeholder.com/400x200?text=No+Image'})`, backgroundSize: 'cover', backgroundPosition: 'center', minHeight: '200px' }}>
- <h5 className="card-title text-white">{profile.nombre}</h5>
- <p className="card-text text-white"><small>{profile.mapa}</small></p>
- </div>
- </div>
- </Link>                
+                  <Link to={`/profile/${profile.id}`} style={{ textDecoration: 'none', color: 'inherit' }}>
+                    <div className="card">
+                      <div className="card-img-overlay d-flex flex-column justify-content-end" style={{ backgroundImage: `url(${profile.media && profile.media.length > 0 ? `${apiBaseUrl}/${profile.media[0].file_path}` : 'https://via.placeholder.com/400x200?text=No+Image'})`, backgroundSize: 'cover', backgroundPosition: 'center', minHeight: '200px' }}>
+                        <h5 className="card-title text-white">{profile.nombre}</h5>
+                        <p className="card-text text-white"><small>{profile.mapa}</small></p>
+                      </div>
                     </div>
+                  </Link>
+                </div>
               ))}
           </div>
         </div>
-      )}      
+      )}
     </>
   );
 };
