@@ -6,7 +6,10 @@ import { Routes, Route, BrowserRouter } from 'react-router-dom';
 import ProfileDetail from './ProfileDetail';
 import AgeVerificationModal from "./components/AgeVerificationModal";
 import Login from './Login.tsx';
+import ModelDashboard from './ModelDashboard.tsx'; // Import ModelDashboard
+import AssistDashboard from './AssistDashboard.tsx'; // Import AssistDashboard
 import AdminDashboard from './AdminDashboard.tsx';
+import Register from './Register.tsx'; // Import Register component
 import { AuthProvider } from './context/AuthContext'; // Import AuthProvider
 import ProtectedRoute from './components/ProtectedRoute';
 
@@ -22,6 +25,9 @@ function App() {
               <Route path="/" element={<ProfilesList />} />
               <Route path="/profile/:id" element={<ProfileDetail />} />
               <Route path="/login" element={<Login />} />
+              <Route path="/register" element={<Register />} /> {/* Add route for Register */}
+              <Route path="/model/dashboard" element={<ModelDashboard />} /> {/* Add route for ModelDashboard */}
+              <Route path="/assist/dashboard" element={<AssistDashboard />} /> {/* Add route for AssistDashboard */}
               <Route element={<ProtectedRoute />}>
                 <Route path="/admin/dashboard" element={<AdminDashboard />} />
               </Route>

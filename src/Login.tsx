@@ -19,9 +19,9 @@ const Login: React.FC = () => {
     if (profile === 'Admin') {
       navigate('/admin/dashboard');
     } else if (profile === 'Model') {
-      // Navigate to Model dashboard
+      navigate('/model/dashboard');
     } else if (profile === 'Assist') {
-      // Navigate to Assist dashboard
+      navigate('/assist/dashboard');
     }
     // Add other profile checks as needed
   }, [profile, navigate]); // Depend on profile and navigate
