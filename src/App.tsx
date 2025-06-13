@@ -5,6 +5,7 @@ import Sidebar from './Sidebar.tsx';
 import { Routes, Route, BrowserRouter } from 'react-router-dom';
 import ProfileDetail from './ProfileDetail';
 import AgeVerificationModal from "./components/AgeVerificationModal";
+import Login from './Login.tsx';
 
 function App() {
   return (
@@ -16,6 +17,7 @@ function App() {
           <Routes>
             <Route path="/" element={<ProfilesList />} />
             <Route path="/profile/:id" element={<ProfileDetail />} />
+            <Route path="/login" element={<Login />} />
           </Routes>
 
           {/* Footer */}
