@@ -87,17 +87,17 @@ const ModelProfileForm: React.FC<ModelProfileFormProps> = ({ onAuthenticationErr
             console.log('Profile data fetched successfully.');
           }
         } else {
-           console.error('Failed to fetch profile data:', response.statusText);
+          console.error('Failed to fetch profile data:', response.statusText);
         }
       } catch (error) {
         console.error('Error fetching profile data:', error);
       }
-    };    
+    };
     fetchProfileData();
   }, [apiBaseUrl, token]);
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    setMessage(null);1
+    setMessage(null);
     setIsSuccess(null);
 
     // Basic validation
@@ -124,7 +124,7 @@ const ModelProfileForm: React.FC<ModelProfileFormProps> = ({ onAuthenticationErr
       const data = await response.json();
 
       if (response.status === 401) {
-         setMessage('Your session has expired.'); // Set message before calling callback
+        setMessage('Your session has expired.'); // Set message before calling callback
         console.log('Authentication error during submit.');
         if (onAuthenticationError) onAuthenticationError();
         return;
@@ -209,6 +209,7 @@ const ModelProfileForm: React.FC<ModelProfileFormProps> = ({ onAuthenticationErr
                 className="form-control col-auto" // Apply form-control class for styling
                 required={!!formData.tarifaValue} // Require currency if value is entered
               >
+                <option value="" disabled>Select Currency</option>
                 <option value="USD">USD</option>
                 <option value="EUR">EUR</option>
                 <option value="COP">COP</option>

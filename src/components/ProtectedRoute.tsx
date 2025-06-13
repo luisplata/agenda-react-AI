@@ -8,15 +8,17 @@ const ProtectedRoute: React.FC = () => {
   useEffect(() => {
     // If a token exists, perform a validation check
     if (token) {
-      const isTokenValid = true;
+      // TODO: Implement token validation logic here
+      // This could involve checking expiration date (if JWT) or making an API call.
+      const isTokenValid = true; // Placeholder: Assume valid for now
       if (!isTokenValid) {
-        logout();
+        logout(); // Clear session if token is invalid
       }
     }
   }, [token, logout]); // Re-run effect if token or logout changes
 
   if (!token) {
-    logout();
+    // If not authenticated, redirect to login
     return <Navigate to="/" state={{ message: 'Please log in to access this page.' }} replace />;
   }
 

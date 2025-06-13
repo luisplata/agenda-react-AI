@@ -1,50 +1,44 @@
-import React, { createContext, useContext, useState, useEffect } from 'react';
-import type { ReactNode } from 'react'; // Use type-only import for ReactNode
+import React, { createContext, useContext, useState } from 'react';
+import type { ReactNode } from 'react';
 
 interface AuthContextType {
     token: string | null;
-    profile: string | null;
-    login: (newToken: string, newProfile: string) => void;
+    profile: any; // Replace 'any' with your profile type
+    login: (token: string, profile: any) => void;
     logout: () => void;
+    // ... other functions like fetchAuthenticated
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
-
-// Define the props type for AuthProvider, including children
 interface AuthProviderProps {
-    children?: ReactNode; // children can be optional and of type ReactNode
+    children: ReactNode; // Use ReactNode for the children prop
 }
-
-// Use the defined props type for AuthProvider
 export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
-    const [token, setToken] = useState<string | null>(null);
-    const [profile, setProfile] = useState<string | null>(null);
+    // 1. Read token from localStorage on initialization
+    const [token, setToken] = useState<string | null>(localStorage.getItem('token'));
+    const [profile, setProfile] = useState<any>(null); // Initialize with null or fetched profile
 
-    useEffect(() => {
-        const storedToken = sessionStorage.getItem('authToken');
-        const storedProfile = sessionStorage.getItem('userProfile');
-        if (storedToken && storedProfile) {
-            setToken(storedToken);
-            setProfile(storedProfile);
-        }
-    }, []);
+    // ... useEffect for initial profile fetch or validation (if needed)
 
-    const login = (newToken: string, newProfile: string) => {
-        sessionStorage.setItem('authToken', newToken);
-        sessionStorage.setItem('userProfile', newProfile);
+    const login = (newToken: string, userProfile: any) => {
+        // 2. Store token in localStorage on login
+        localStorage.setItem('token', newToken);
         setToken(newToken);
-        setProfile(newProfile);
+        setProfile(userProfile);
     };
 
     const logout = () => {
-        sessionStorage.removeItem('authToken');
-        sessionStorage.removeItem('userProfile');
+        // 3. Remove token from localStorage on logout
+        localStorage.removeItem('token');
         setToken(null);
         setProfile(null);
+        // Redirection on logout can be handled here or by ProtectedRoute
     };
 
+    // ... fetchAuthenticated function
+
     return (
-        <AuthContext.Provider value={{ token, profile, login, logout }}>
+        <AuthContext.Provider value={{ token, profile, login, logout /* ... */ }}>
             {children}
         </AuthContext.Provider>
     );

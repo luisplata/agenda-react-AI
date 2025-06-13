@@ -31,7 +31,7 @@ const ModelDashboard: React.FC = () => {
             <ModelProfileForm onAuthenticationError={handleAuthenticationError} />
           )}
         </>
-      )};
+      )}
     </DashboardLayout>
   );
 };
