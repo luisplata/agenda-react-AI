@@ -4,11 +4,13 @@ import Topbar from './Topbar.tsx';
 import Sidebar from './Sidebar.tsx';
 import { Routes, Route, BrowserRouter } from 'react-router-dom';
 import ProfileDetail from './ProfileDetail';
+import AgeVerificationModal from "./components/AgeVerificationModal";
 
 function App() {
   return (
     <>
       <BrowserRouter>
+        <AgeVerificationModal />
         <Topbar />
         <div className="container mt-4">
           <Routes>
