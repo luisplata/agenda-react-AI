@@ -20,7 +20,7 @@ interface Profile {
     valor: string;
     id?: number; // Optional id for tags
   }[];
-  media: { file_path: string, tipo: string }[]; // Added 'tipo' to media interface
+  media: { file_path: string, type: string }[]; // Added 'tipo' to media interface
   // Add other properties as they exist in your API response
   contacto?: string; // Assuming you might have a contact field
 }
@@ -180,7 +180,7 @@ const ProfileDetail: React.FC = () => {
                       style={{ cursor: 'pointer' }} // Keep cursor style on the container
                       onClick={() => openModal(`${apiBaseUrl}/${mediaItem.file_path}`)} // Open modal with the file path
                     >
-                      {mediaItem.tipo === 'image' ? (
+                      {mediaItem.type === 'image' ? (
                         <img
                           src={`${apiBaseUrl}/${mediaItem.file_path}`}
                           alt={`Gallery item ${index + 1}`}
@@ -189,7 +189,7 @@ const ProfileDetail: React.FC = () => {
                         // Moved hover effect styling to CSS class .gallery-thumbnail:hover
                         // Hover effect now scales the image directly
                         />
-                      ) : mediaItem.tipo === 'video' ? (
+                      ) : mediaItem.type === 'video' ? (
                         <video
                           src={`${apiBaseUrl}/${mediaItem.file_path}`}
                           controls // Add controls for video playback
