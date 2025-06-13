@@ -12,6 +12,8 @@ import AdminDashboard from './pages/AdminDashboard.tsx';
 import Register from './pages/Register.tsx'; // Import Register component
 import { AuthProvider } from './context/AuthContext'; // Import AuthProvider
 import ProtectedRoute from './components/ProtectedRoute';
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 function App() {
   return (
@@ -20,15 +22,16 @@ function App() {
         <AuthProvider>
           <AgeVerificationModal />
           <Topbar />
+          <ToastContainer />
           <div className="container mt-4">
             <Routes>
               <Route path="/" element={<ProfilesList />} />
               <Route path="/profile/:id" element={<ProfileDetail />} />
               <Route path="/login" element={<Login />} />
               <Route path="/register" element={<Register />} /> {/* Add route for Register */}
-              <Route path="/model/dashboard" element={<ModelDashboard />} /> {/* Add route for ModelDashboard */}
-              <Route path="/assist/dashboard" element={<AssistDashboard />} /> {/* Add route for AssistDashboard */}
               <Route element={<ProtectedRoute />}>
+                <Route path="/model/dashboard" element={<ModelDashboard />} />
+                <Route path="/assist/dashboard" element={<AssistDashboard />} />
                 <Route path="/admin/dashboard" element={<AdminDashboard />} />
               </Route>
             </Routes>

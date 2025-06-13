@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom'; // Assuming you are using react-router-dom
+import { useLocation } from 'react-router-dom';
+import { toast } from 'react-toastify';
 
 interface Profile {
   id: number;
@@ -16,6 +18,7 @@ const apiBaseUrl = import.meta.env.VITE_API_BASE_URL;
 
 const ProfilesList: React.FC = () => {
   const [profiles, setProfiles] = useState<Profile[]>([]);
+  const [isToastShown, setIsToastShown] = useState(false); // Add state for toast status
   const [loading, setLoading] = useState(true);
 
   const [nameFilter, setNameFilter] = useState('');
@@ -25,7 +28,23 @@ const ProfilesList: React.FC = () => {
   const [nationalities, setNationalities] = useState<string[]>([]);
   const [categories, setCategories] = useState<string[]>([]);
 
+  const location = useLocation();
+
   useEffect(() => {
+    if (location.state && (location.state as { message?: string }).message && !isToastShown) { // Add condition !isToastShown
+      const message = (location.state as { message: string }).message; // Ensure message is string type
+      toast.error(message, { // Use toast.error or another toast type
+        position: "top-right", // Customize position
+        autoClose: 5000, // Auto close after 5 seconds
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+      });
+
+      setIsToastShown(true); // Set toast shown to true
+    }
     const fetchProfiles = async () => {
       try {
         const response = await fetch(`${apiBaseUrl}/api/people`);
@@ -62,7 +81,7 @@ const ProfilesList: React.FC = () => {
     }
 
     fetchProfiles();
-  }, []); // Empty dependency array means this effect runs once on mount
+  }, [location.state, isToastShown]); // Add isToastShown to dependencies
 
   return (
     <>
