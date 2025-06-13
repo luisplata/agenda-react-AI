@@ -1,5 +1,6 @@
 import React from 'react';
 import DashboardLayout from '../layouts/DashboardLayout'; // Import DashboardLayout
+import UserManagement from '../components/UserManagement'; // Import UserManagement component
 
 const AdminDashboard: React.FC = () => {
   // Define sidebar options specifically for the Admin Dashboard
@@ -15,11 +16,8 @@ const AdminDashboard: React.FC = () => {
 
   return (
     <DashboardLayout sidebarOptions={adminSidebarOptions}> {/* Pass admin options to DashboardLayout */}
-      <div className="container mt-5"> {/* Keep container for main content padding */}
-        <h2 className="text-center mb-4">Admin Dashboard</h2>
-        <p>Welcome to the admin dashboard. This is where admin-specific content and functionality will be placed.</p>
-        {/* Add more admin-specific content here */}
-      </div>
+      {/* Replace placeholder content with UserManagement component */}
+      <UserManagement />
     </DashboardLayout>
   );
 };
