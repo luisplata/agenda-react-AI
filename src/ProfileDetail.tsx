@@ -36,7 +36,8 @@ const ProfileDetail: React.FC = () => {
     const fetchProfile = async () => {
       try {
         // Fetch data using the ID from the URL
-        const response = await fetch(`https://lobasvip.com.ve/index.php/api/people/${id}`);
+        const apiBaseUrl = import.meta.env.VITE_API_BASE_URL;
+        const response = await fetch(`${apiBaseUrl}/api/people/${id}`);
         const data = await response.json();
         setProfile(data);
         setLoading(false);

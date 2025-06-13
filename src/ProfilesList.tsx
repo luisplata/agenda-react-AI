@@ -26,7 +26,8 @@ const ProfilesList: React.FC = () => {
   useEffect(() => {
     const fetchProfiles = async () => {
       try {
-        const response = await fetch('https://lobasvip.com.ve/index.php/api/people');
+        const apiBaseUrl = import.meta.env.VITE_API_BASE_URL;
+        const response = await fetch(`${apiBaseUrl}/api/people`);
         const data = await response.json();
         setProfiles(data);
 
