@@ -1,15 +1,15 @@
 import './App.css'
-import ProfilesList from './ProfilesList.tsx';
-import Topbar from './Topbar.tsx';
-import Sidebar from './Sidebar.tsx';
+import ProfilesList from './pages/ProfilesList.tsx';
+import Topbar from './components/Topbar.tsx';
+import Sidebar from './components/Sidebar.tsx';
 import { Routes, Route, BrowserRouter } from 'react-router-dom';
-import ProfileDetail from './ProfileDetail';
+import ProfileDetail from './pages/ProfileDetail';
 import AgeVerificationModal from "./components/AgeVerificationModal";
-import Login from './Login.tsx';
-import ModelDashboard from './ModelDashboard.tsx'; // Import ModelDashboard
-import AssistDashboard from './AssistDashboard.tsx'; // Import AssistDashboard
-import AdminDashboard from './AdminDashboard.tsx';
-import Register from './Register.tsx'; // Import Register component
+import Login from './pages/Login.tsx';
+import ModelDashboard from './pages/ModelDashboard.tsx'; // Import ModelDashboard
+import AssistDashboard from './pages/AssistDashboard.tsx'; // Import AssistDashboard
+import AdminDashboard from './pages/AdminDashboard.tsx';
+import Register from './pages/Register.tsx'; // Import Register component
 import { AuthProvider } from './context/AuthContext'; // Import AuthProvider
 import ProtectedRoute from './components/ProtectedRoute';
 

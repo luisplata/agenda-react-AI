@@ -1,9 +1,9 @@
 import React from "react";
 
 import { useNavigate } from "react-router-dom";
-import { useAuth } from './context/AuthContext'; // Import the useAuth hook
+import { useAuth } from '../context/AuthContext'; // Import the useAuth hook
 
-const Sidebar: React.FC = () => {
+const Sidebar: React.FC = () => { 
   const navigate = useNavigate();
   const { token, logout, profile } = useAuth(); // Get token, logout, and profile from context
 

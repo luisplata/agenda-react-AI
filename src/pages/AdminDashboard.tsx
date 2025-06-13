@@ -1,5 +1,5 @@
 import React from 'react';
-import DashboardLayout from './layouts/DashboardLayout'; // Import DashboardLayout
+import DashboardLayout from '../layouts/DashboardLayout'; // Import DashboardLayout
 
 const AdminDashboard: React.FC = () => {
   // Define sidebar options specifically for the Admin Dashboard
