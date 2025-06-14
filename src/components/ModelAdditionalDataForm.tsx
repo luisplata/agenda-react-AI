@@ -3,6 +3,7 @@ import React, { useState } from 'react';
 const ModelAdditionalDataForm: React.FC = () => {
   const [currentStep, setCurrentStep] = useState(1);
   const [selectedServices, setSelectedServices] = useState<Array<{ tipo: string; valor: string }>>([]);
+  const [weight, setWeight] = useState<number | ''>('');
   const [height, setHeight] = useState<number | ''>('');
   const [age, setAge] = useState<number | ''>('');
   const [formErrors, setFormErrors] = useState<{ [key: number]: string | null }>({});
@@ -49,17 +50,22 @@ const ModelAdditionalDataForm: React.FC = () => {
       }
 
       // Age validation for Step 1
-      if (age === '' || typeof age !== 'number' || age < 18 || age > 99) {
-        errors[step] = (errors[step] ? errors[step] + ' ' : '') + 'Age must be a number between 18 and 99.'; // Combine error messages
-        errors[step] = errors[step] && errors[step].includes('Service') ? errors[step] : null; // Keep service error if present
+      if (age === '' || typeof age !== 'number' || age < 18 || age > 99 || isNaN(age)) {
+        errors[step] = (errors[step] ? errors[step] + ' ' : '') + 'Age must be a valid number between 18 and 99.'; // Combine error messages and check for NaN
+        isValid = false;
+      } else {
+ if (errors[step] && typeof errors[step] === 'string' && errors[step].includes('Age')) {
+ errors[step] = errors[step].replace('Age must be a valid number between 18 and 99.', '').trim();
+ if (errors[step] === '') errors[step] = null;
+ }
       }
     }
 
-    // Validation for Step 2 (placeholder)
+    // Validation for Step 2
     if (step === 2) {
-      // Add validation for step 2 fields here
-      if (height === '' || typeof height !== 'number' || height <= 0 || height > 2.50) {
-        errors[step] = 'Estatura must be a number greater than 0 and less than or equal to 2.50.';
+      // Estatura validation
+      if (height === '' || typeof height !== 'number' || height <= 0 || height > 2.50 || isNaN(height)) {
+        errors[step] = 'Estatura must be a valid number greater than 0 and less than or equal to 2.50.';
         isValid = false;
       } else {
         errors[step] = null;
@@ -74,9 +80,6 @@ const ModelAdditionalDataForm: React.FC = () => {
   const handleNext = () => {
     if (validateStep(currentStep)) {
       setCurrentStep(prevStep => prevStep + 1);
- if (currentStep === 2) {
-        // Assuming 2 steps for now, handle form submission or final action here
-      }
     }
   };
 
@@ -135,6 +138,7 @@ const ModelAdditionalDataForm: React.FC = () => {
               {formErrors[1] && typeof formErrors[1] === 'string' && formErrors[1].includes('Age') && (
                 <div className="text-red-500 text-sm mt-1">{formErrors[1]}</div> // Specific error message for age
               )}
+
             </div>
 
           </>
@@ -142,6 +146,24 @@ const ModelAdditionalDataForm: React.FC = () => {
       {currentStep === 2 && (
         <>
           <h3>Paso 2: Otros Datos</h3>
+          {/* Estatura field */}
+           <div className="form-group mt-4"> {/* Added margin top */}
+              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">Peso (kgs):</label> {/* Added classes for styling */}
+              <input
+                type="number"
+                className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-300 focus:ring focus:ring-blue-200 focus:ring-opacity-50 dark:bg-gray-700 dark:border-gray-600 dark:text-gray-200" // Added classes for input styling
+                value={weight}
+                onChange={(e) => setWeight(parseFloat(e.target.value) || '')} // Parse input as float
+                step="0.01" // Allow decimal input
+                min="0.01" // Minimum value for browser validation (optional but helpful)
+                max="250" // Maximum value for browser validation (optional but helpful)
+                required // Mark as required for browser validation
+              />
+               {formErrors[2] && typeof formErrors[2] === 'string' && formErrors[2].includes('Peso') && (
+                <div className="text-red-500 text-sm mt-1">{formErrors[2]}</div> // Specific error message for weight
+              )}
+            </div>
+
            <div className="form-group mt-4"> {/* Added margin top */}
               <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">Estatura (mts):</label> {/* Added classes for styling */}
               <input
