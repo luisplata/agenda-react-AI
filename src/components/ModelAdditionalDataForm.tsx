@@ -5,6 +5,9 @@ const ModelAdditionalDataForm: React.FC = () => {
   const [selectedServices, setSelectedServices] = useState<Array<{ tipo: string; valor: string }>>([]);
   const [weight, setWeight] = useState<number | ''>('');
   const [height, setHeight] = useState<number | ''>('');
+  const [measurement1, setMeasurement1] = useState<number | ''>('');
+  const [measurement2, setMeasurement2] = useState<number | ''>('');
+  const [measurement3, setMeasurement3] = useState<number | ''>('');
   const [age, setAge] = useState<number | ''>('');
   const [formErrors, setFormErrors] = useState<{ [key: number]: string | null }>({});
 
@@ -49,26 +52,56 @@ const ModelAdditionalDataForm: React.FC = () => {
         errors[step] = null;
       }
 
-      // Age validation for Step 1
-      if (age === '' || typeof age !== 'number' || age < 18 || age > 99 || isNaN(age)) {
-        errors[step] = (errors[step] ? errors[step] + ' ' : '') + 'Age must be a valid number between 18 and 99.'; // Combine error messages and check for NaN
-        isValid = false;
-      } else {
+ // Age validation for Step 1
+ if (age === '' || typeof age !== 'number' || age < 18 || age > 99 || isNaN(age)) {
+ errors[step] = (errors[step] ? errors[step] + ' ' : '') + 'Age must be a valid number between 18 and 99.'; // Combine error messages and check for NaN
+ isValid = false;
+ } else {
  if (errors[step] && typeof errors[step] === 'string' && errors[step].includes('Age')) {
  errors[step] = errors[step].replace('Age must be a valid number between 18 and 99.', '').trim();
  if (errors[step] === '') errors[step] = null;
  }
-      }
+ }
     }
 
     // Validation for Step 2
     if (step === 2) {
       // Estatura validation
       if (height === '' || typeof height !== 'number' || height <= 0 || height > 2.50 || isNaN(height)) {
-        errors[step] = 'Estatura must be a valid number greater than 0 and less than or equal to 2.50.';
+        errors[step] = (errors[step] ? errors[step] + ' ' : '') + 'Estatura must be a valid number greater than 0 and less than or equal to 2.50.';
         isValid = false;
       } else {
-        errors[step] = null;
+ // If Estatura is valid, clear any previous error message for it
+ if (errors[step] && typeof errors[step] === 'string' && errors[step].includes('Estatura')) {
+ errors[step] = errors[step].replace('Estatura must be a valid number greater than 0 and less than or equal to 2.50.', '').trim();
+ if (errors[step] === '') errors[step] = null;
+ }
+      }
+
+ // Peso validation
+ if (weight === '' || typeof weight !== 'number' || weight <= 0 || weight > 250 || isNaN(weight)) {
+ errors[step] = (errors[step] ? errors[step] + ' ' : '') + 'Peso must be a valid number greater than 0 and less than or equal to 250.';
+ isValid = false;
+      } else {
+ // If Peso is valid, clear any previous error message for it
+ if (errors[step] && typeof errors[step] === 'string' && errors[step].includes('Peso')) {
+ errors[step] = errors[step].replace('Peso must be a valid number greater than 0 and less than or equal to 250.', '').trim();
+ if (errors[step] === '') errors[step] = null;
+ }
+      }
+
+ // Medidas validation (optional but if filled, validate range)
+ if ((measurement1 !== '' && (typeof measurement1 !== 'number' || measurement1 <= 0 || measurement1 > 200 || isNaN(measurement1))) ||
+ (measurement2 !== '' && (typeof measurement2 !== 'number' || measurement2 <= 0 || measurement2 > 200 || isNaN(measurement2))) ||
+ (measurement3 !== '' && (typeof measurement3 !== 'number' || measurement3 <= 0 || measurement3 > 200 || isNaN(measurement3)))) {
+ errors[step] = (errors[step] ? errors[step] + ' ' : '') + 'Medidas must be valid numbers greater than 0 and less than or equal to 200 if entered.';
+ isValid = false;
+      } else {
+ // If Medidas are valid or empty, clear any previous error message for it
+ if (errors[step] && typeof errors[step] === 'string' && errors[step].includes('Medidas')) {
+ errors[step] = errors[step].replace('Medidas must be valid numbers greater than 0 and less than or equal to 200 if entered.', '').trim();
+ if (errors[step] === '') errors[step] = null;
+ }
       }
 
     }
@@ -146,6 +179,7 @@ const ModelAdditionalDataForm: React.FC = () => {
       {currentStep === 2 && (
         <>
           <h3>Paso 2: Otros Datos</h3>
+
           {/* Estatura field */}
            <div className="form-group mt-4"> {/* Added margin top */}
               <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">Peso (kgs):</label> {/* Added classes for styling */}
@@ -164,6 +198,7 @@ const ModelAdditionalDataForm: React.FC = () => {
               )}
             </div>
 
+          {/* Peso field */}
            <div className="form-group mt-4"> {/* Added margin top */}
               <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">Estatura (mts):</label> {/* Added classes for styling */}
               <input
@@ -180,6 +215,46 @@ const ModelAdditionalDataForm: React.FC = () => {
                 <div className="text-red-500 text-sm mt-1">{formErrors[2]}</div> // Specific error message for height
               )}
             </div>
+
+           {/* Medidas fields */}
+           <div className="form-group mt-4">
+              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">Medidas (EJM 90/60/90):</label>
+              <div className="flex items-center gap-2 mt-1"> {/* Use flex to align inputs */}
+                <input
+                  type="number"
+                  className="block w-1/3 rounded-md border-gray-300 shadow-sm focus:border-blue-300 focus:ring focus:ring-blue-200 focus:ring-opacity-50 dark:bg-gray-700 dark:border-gray-600 dark:text-gray-200"
+                  value={measurement1}
+                  onChange={(e) => setMeasurement1(parseFloat(e.target.value) || '')}
+                  min="0.01"
+                  max="200"
+                  placeholder="Busto" // Example placeholder
+                />
+                <span className="text-gray-500 dark:text-gray-400">/</span>
+                <input
+                  type="number"
+                  className="block w-1/3 rounded-md border-gray-300 shadow-sm focus:border-blue-300 focus:ring focus:ring-blue-200 focus:ring-opacity-50 dark:bg-gray-700 dark:border-gray-600 dark:text-gray-200"
+                  value={measurement2}
+                  onChange={(e) => setMeasurement2(parseFloat(e.target.value) || '')}
+                  min="0.01"
+                  max="200"
+                  placeholder="Cintura" // Example placeholder
+                />
+                <span className="text-gray-500 dark:text-gray-400">/</span>
+                <input
+                  type="number"
+                  className="block w-1/3 rounded-md border-gray-300 shadow-sm focus:border-blue-300 focus:ring focus:ring-blue-200 focus:ring-opacity-50 dark:bg-gray-700 dark:border-gray-600 dark:text-gray-200"
+                  value={measurement3}
+                  onChange={(e) => setMeasurement3(parseFloat(e.target.value) || '')}
+                  min="0.01"
+                  max="200"
+                  placeholder="Cadera" // Example placeholder
+                />
+              </div>
+              {formErrors[2] && typeof formErrors[2] === 'string' && formErrors[2].includes('Medidas') && (
+                <div className="text-red-500 text-sm mt-1">{formErrors[2]}</div> // Specific error message for measurements
+              )}
+           </div>
+
 
         </>
       )}
