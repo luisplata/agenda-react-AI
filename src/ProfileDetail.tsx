@@ -25,6 +25,8 @@ interface Profile {
   contacto?: string; // Assuming you might have a contact field
 }
 
+const apiBaseUrl = import.meta.env.VITE_API_BASE_URL;
+
 const ProfileDetail: React.FC = () => {
   const { id } = useParams<{ id: string }>(); // Get the ID from the URL
   const [profile, setProfile] = useState<Profile | null>(null);
@@ -36,7 +38,6 @@ const ProfileDetail: React.FC = () => {
     const fetchProfile = async () => {
       try {
         // Fetch data using the ID from the URL
-        const apiBaseUrl = import.meta.env.VITE_API_BASE_URL;
         const response = await fetch(`${apiBaseUrl}/api/people/${id}`);
         const data = await response.json();
         setProfile(data);
@@ -98,7 +99,7 @@ const ProfileDetail: React.FC = () => {
                 profile.media[0] &&
                 profile.media[0].file_path ? (
                 <img
-                  src={`https://lobasvip.com.ve/${profile.media[0].file_path}`}
+                  src={`${apiBaseUrl}/${profile.media[0].file_path}`}
                   alt={profile.nombre}
                   className="img-fluid" // Make image responsive
                 />
@@ -177,12 +178,12 @@ const ProfileDetail: React.FC = () => {
                     className="col-6 col-md-4 col-lg-3 mb-4"
                   >
                     <img
-                      src={`https://lobasvip.com.ve/${mediaItem.file_path}`}
+                      src={`${apiBaseUrl}/${mediaItem.file_path}`}
                       alt={`Gallery item ${index + 1}`}
                       className="img-fluid gallery-thumbnail" // Make image responsive and add a class for styling
                       style={{ cursor: 'pointer' }} // Keep cursor style
                       // Removed inline hover styles to move to CSS class for better organization
-                      onClick={() => openModal(`https://lobasvip.com.ve/${mediaItem.file_path}`)}
+                      onClick={() => openModal(`${apiBaseUrl}/${mediaItem.file_path}`)}
                     // Moved hover effect styling to CSS class .gallery-thumbnail:hover
                     // Hover effect now scales the image directly
                     />
