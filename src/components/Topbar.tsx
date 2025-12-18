@@ -8,7 +8,7 @@ const Topbar: React.FC = () => {
         {/* Logo Placeholder */}
         <Link className="navbar-brand" to="/">
           {/* Replace with your logo image and adjust dimensions as needed */}
-          <img src="https://lobasvip.com.ve/image.jpg" alt="Logo" height="100" className="d-inline-block align-text-top" style={{ objectFit: 'contain' }} />
+          <img src="https://lobasvip.com.ve/image.jpg" alt="Logo" height="100" className="d-inline-block align-text-top rounded-4" style={{ objectFit: 'contain' }} />
         </Link>
 
         {/* Toggler Button for Sidebar (will need sidebar implementation) */}

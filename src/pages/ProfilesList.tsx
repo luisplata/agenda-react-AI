@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom'; // Assuming you are using react-router-dom
+import { useLocation } from 'react-router-dom';
+import { toast } from 'react-toastify';
 
 interface Profile {
   id: number;
@@ -9,13 +11,14 @@ interface Profile {
     tipo: string;
     valor: string;
   }[];
-  media: { file_path: string }[];
+  media: { file_path: string, type: string }[];
 }
 
 const apiBaseUrl = import.meta.env.VITE_API_BASE_URL;
 
 const ProfilesList: React.FC = () => {
   const [profiles, setProfiles] = useState<Profile[]>([]);
+  const [isToastShown, setIsToastShown] = useState(false); // Add state for toast status
   const [loading, setLoading] = useState(true);
 
   const [nameFilter, setNameFilter] = useState('');
@@ -25,7 +28,23 @@ const ProfilesList: React.FC = () => {
   const [nationalities, setNationalities] = useState<string[]>([]);
   const [categories, setCategories] = useState<string[]>([]);
 
+  const location = useLocation();
+
   useEffect(() => {
+    if (location.state && (location.state as { message?: string }).message && !isToastShown) { // Add condition !isToastShown
+      const message = (location.state as { message: string }).message; // Ensure message is string type
+      toast.error(message, { // Use toast.error or another toast type
+        position: "top-right", // Customize position
+        autoClose: 5000, // Auto close after 5 seconds
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+      });
+
+      setIsToastShown(true); // Set toast shown to true
+    }
     const fetchProfiles = async () => {
       try {
         const response = await fetch(`${apiBaseUrl}/api/people`);
@@ -62,7 +81,7 @@ const ProfilesList: React.FC = () => {
     }
 
     fetchProfiles();
-  }, []); // Empty dependency array means this effect runs once on mount
+  }, [location.state, isToastShown]); // Add isToastShown to dependencies
 
   return (
     <>
@@ -113,7 +132,7 @@ const ProfilesList: React.FC = () => {
             {profiles
               .filter(profile => {
                 const nameMatch = profile.nombre.toLowerCase().includes(nameFilter.toLowerCase());
-                const nationalityMatch = nationalityFilter === '' || profile.tags.some(tag => tag.tipo === 'nacionalidad' && tag.valor.toLowerCase() === nationalityFilter.toLowerCase());
+                const nationalityMatch = nationalityFilter === '' || (profile.tags && profile.tags.some(tag => tag.tipo === 'nacionalidad' && tag.valor.toLowerCase() === nationalityFilter.toLowerCase()));
                 const categoryMatch = categoryFilter === '' || profile.tags.some(tag => tag.tipo === 'categoria' && tag.valor.toLowerCase() === categoryFilter.toLowerCase());
                 return nameMatch && nationalityMatch && categoryMatch;
               })
@@ -122,9 +141,17 @@ const ProfilesList: React.FC = () => {
                 <div key={profile.id} className="col-6 col-md-4 col-lg-3 col-xl-3 mb-4" style={{ cursor: 'pointer' }}>
                   <Link to={`/profile/${profile.id}`} style={{ textDecoration: 'none', color: 'inherit' }}>
                     <div className="card">
+<<<<<<< HEAD:src/ProfilesList.tsx
                       <div className="card-img-overlay d-flex flex-column justify-content-end" style={{ backgroundImage: `url(${profile.media && profile.media.length > 0 ? `${apiBaseUrl}/${profile.media[0].file_path}` : 'https://via.placeholder.com/400x200?text=No+Image'})`, backgroundSize: 'cover', backgroundPosition: 'center', minHeight: '200px' }}>
                         <h5 className="card-title text-white">{profile.nombre}</h5>
                         <p className="card-text text-white"><small>{profile.mapa}</small></p>
+=======
+                      <div className="card-img-overlay d-flex flex-column justify-content-end" style={{ backgroundImage: `url(${profile.media && profile.media.length > 0 ? `${apiBaseUrl}/${profile.media[0].file_path}` : 'https://via.placeholder.com/400x200?text=No+Image'})`, backgroundSize: 'cover', backgroundPosition: 'center', minHeight: '200px', paddingLeft: '0px', paddingRight: '0px', paddingBottom: '0px' }}>
+                        <div style={{ backgroundImage: 'linear-gradient(to top, rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.7))', paddingLeft: '20px', paddingRight: '20px', paddingBottom: '10px' }}>
+                          <h5 className="card-title text-white">{profile.nombre}</h5>
+                          <p className="card-text text-white"><small>{profile.mapa}</small></p>
+                        </div>
+>>>>>>> 986eb62f673e954091108e810d0d2a98cc9e21d2:src/pages/ProfilesList.tsx
                       </div>
                     </div>
                   </Link>

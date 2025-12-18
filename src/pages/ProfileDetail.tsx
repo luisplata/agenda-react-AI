@@ -20,7 +20,7 @@ interface Profile {
     valor: string;
     id?: number; // Optional id for tags
   }[];
-  media: { file_path: string }[];
+  media: { file_path: string, type: string }[]; // Added 'tipo' to media interface
   // Add other properties as they exist in your API response
   contacto?: string; // Assuming you might have a contact field
 }
@@ -172,6 +172,7 @@ const ProfileDetail: React.FC = () => {
             <div className="col">
               <h3>Galeria</h3>
               <div className="row">
+<<<<<<< HEAD:src/ProfileDetail.tsx
                 {profile.media && profile.media.length > 0 ? (profile.media.map((mediaItem, index) => (
                   <div
                     key={index}
@@ -189,6 +190,37 @@ const ProfileDetail: React.FC = () => {
                     />
                   </div>
                 ))
+=======
+                {profile.media && profile.media.length > 0 ? (
+                  profile.media.map((mediaItem, index) => (
+                    <div
+                      key={index}
+                      className="col-6 col-md-4 col-lg-3 mb-4"
+                      style={{ cursor: 'pointer' }} // Keep cursor style on the container
+                      onClick={() => openModal(`${apiBaseUrl}/${mediaItem.file_path}`)} // Open modal with the file path
+                    >
+                      {mediaItem.type === 'image' ? (
+                        <img
+                          src={`${apiBaseUrl}/${mediaItem.file_path}`}
+                          alt={`Gallery item ${index + 1}`}
+                          className="img-fluid gallery-thumbnail" // Make image responsive and add a class for styling
+                        // Removed inline hover styles to move to CSS class for better organization
+                        // Moved hover effect styling to CSS class .gallery-thumbnail:hover
+                        // Hover effect now scales the image directly
+                        />
+                      ) : mediaItem.type === 'video' ? (
+                        <video
+                          src={`${apiBaseUrl}/${mediaItem.file_path}`}
+                          controls // Add controls for video playback
+                          className="img-fluid gallery-thumbnail" // Use the same class for styling
+                        // You might want to add a poster attribute for a preview image
+                        >
+                          Your browser does not support the video tag.
+                        </video>
+                      ) : null} {/* Handle other media types if needed */}
+                    </div>
+                  ))
+>>>>>>> 986eb62f673e954091108e810d0d2a98cc9e21d2:src/pages/ProfileDetail.tsx
                 ) : (
                   <p>No hay elementos en la galería.</p>
                 )}
@@ -200,12 +232,18 @@ const ProfileDetail: React.FC = () => {
           {isModalOpen && (
             <div className="modal-overlay" onClick={closeModal} style={{ position: 'fixed', top: 0, left: 0, right: 0, bottom: 0, backgroundColor: 'rgba(0, 0, 0, 0.9)', display: 'flex', justifyContent: 'center', alignItems: 'center', zIndex: 1050, padding: '20px' }}>
               {/* Added padding to prevent image from touching the edges */}
-              <div className="modal-content" style={{ overflow: 'hidden', display: 'flex', justifyContent: 'center', alignItems: 'center', margin: '20px 0' }}>
-                {/* Set max height to 100vh for vertical fit and centered content */}
-                <img src={selectedImage || ''} alt="Expanded" className="modal-image" style={{
-                  objectFit: 'contain', maxHeight: '100vh', maxWidth: '100%'
-                }}
-                />
+              <div className="modal-content" style={{ overflow: 'hidden', display: 'flex', justifyContent: 'center', alignItems: 'center', margin: '20px auto', width: 'auto', height: 'auto' }}>
+                {/* Check the file extension to determine if it's an image or video */}
+                {selectedImage && selectedImage.match(/\.(jpeg|jpg|gif|png)$/) ? (
+                  <img src={selectedImage} alt="Expanded" className="modal-image" style={{
+                    objectFit: 'contain', maxHeight: '100vh', maxWidth: '100%'
+                  }}
+                  />
+                ) : selectedImage && selectedImage.match(/\.(mp4|webm|ogg)$/) ? (
+                  <video src={selectedImage} controls className="modal-video" style={{ objectFit: 'contain', maxHeight: '100vh', maxWidth: '100%' }}>
+                    Your browser does not support the video tag.
+                  </video>
+                ) : null}
               </div>
             </div>
           )}
